@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: latex-renderer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: latex-renderer
+  template:
+    metadata:
+      labels:
+        app: latex-renderer
+    spec:
+      containers:
+        - name: latex-renderer
+          image: latex-renderer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: latex-renderer
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.0.7
+  selector:
+    app: latex-renderer
+  ports:
+    - port: 80
+      targetPort: 5000

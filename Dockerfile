@@ -8,6 +8,10 @@ RUN apt-get update && \
     curl && \
     pip3 install --upgrade pip setuptools flask
 
-COPY server.py .
+WORKDIR /app
+COPY server.py /app/server.py
+
+ENV FLASK_APP=server.py
+ENV FLASK_RUN_HOST=0.0.0.0
 
 CMD ["python3", "server.py"]
